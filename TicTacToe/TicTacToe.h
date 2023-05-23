@@ -10,6 +10,10 @@ enum Player{
     user, computer
 };
 
-bool checkGame(char gameSquaresIn[3][3]);
+bool checkGame(char[rows][colums]);
+
+void printGameSquares(char[rows][colums]);
+
+std::pair<int, int> getIndexOfSquare(char (&gameSquaresIn)[rows][colums], int);
 
 #endif
