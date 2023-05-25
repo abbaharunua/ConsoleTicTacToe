@@ -15,30 +15,22 @@ void printGameSquares(char gameSquaresIn[rows][colums]){
     }
 }
 
-std::pair<int, int> getIndexOfSquare(char (&gameSquaresIn)[rows][colums], int userSquareChoice){
-    char currentValue;
-    pair<int, int> positionOfSquare;
-    int rowCounter;
-    int colCounter;
-    bool userChoiceFound = false;
-    
-
-    for (rowCounter = 0; rowCounter < rows; rowCounter++){
-        for (colCounter = 0; colCounter < colums; colCounter++){
-            currentValue = gameSquaresIn[rowCounter][colCounter];
-            int currentValueAsInt = currentValue - '0';
-            if (currentValueAsInt == userSquareChoice) {
+std::pair<int, int> getIndexOfSquare(char (&gameSquaresIn)[rows][colums], int userSquareChoice) {
+    int rowCounter, colCounter;
+    bool userChoiceFound = false; 
+    char userChoiceAsChar = userSquareChoice + '0'; // convert userSquareChoice to a char
+    for (rowCounter = 0; rowCounter < 3; rowCounter++) {
+        for (colCounter = 0; colCounter < 3; colCounter++) {
+            if (gameSquaresIn[rowCounter][colCounter] == userChoiceAsChar) {
                 userChoiceFound = true;
-                break;
+                break; // break out of inner loop as soon as userSquareChoice is found
             }
         }
-        if (userChoiceFound){
-            break;
+        if (userChoiceFound) {
+            break; // break out of outer loop if userSquareChoice is found
         }
     }
-    positionOfSquare.first = rowCounter;
-    positionOfSquare.second = colCounter;
-
+    std::pair<int, int> positionOfSquare(rowCounter, colCounter);
     return positionOfSquare;
 }
 
@@ -81,6 +73,7 @@ int main (){
     while (!gameOver){
         if (currentPlayer == Player::computer){
             printGameSquares(gameSquares);
+            currentPlayer = Player::user;
         }
         else{
             cout<<"Enter the square of your choice."<<endl;
@@ -89,7 +82,7 @@ int main (){
             pair<int, int> indexOfSquare = getIndexOfSquare(gameSquaresRepresentation, squareChoice);
             gameSquares[indexOfSquare.first][indexOfSquare.second] = userChoice;
             printGameSquares(gameSquares);
-
+            currentPlayer = Player::computer;
         }
         //gameOver = checkGame(gameSquares);
     }
