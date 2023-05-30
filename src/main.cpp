@@ -37,12 +37,20 @@ pair<int, int> getIndexOfSquare(vector<vector<char>> gameSquaresIn, int userSqua
     return positionOfSquare;
 }
 
-void computerTurn(vector<vector<char>> gameSquaresIn) {
-    //For now computer will play a random square
-
+int computerTurn(vector<vector<char>>& gameSquaresIn, vector<int>&squaresPlayedIn) {
+    //Generate a random number between 1 and 9
+    int randomNumber;
+    std::random_device rand_dev;
+    std::mt19937 generator(rand_dev());
+    do {
+        std::uniform_int_distribution<int> distr(1, 9);
+        randomNumber = distr(generator);
+    }
+    while (vectorContainsValue(squaresPlayedIn, randomNumber));
+    return randomNumber;
 }
 
-bool vectorContainsValue(std::vector<int> vectorIn, int valueToCheck) {
+bool vectorContainsValue(std::vector<int>& vectorIn, int& valueToCheck) {
     for (int element : vectorIn) {
         if (element == valueToCheck){
             return true;
@@ -91,6 +99,10 @@ int main (){
     int squareChoice;
     while (!gameOver){
         if (currentPlayer == Player::computer){
+            int squareChoice = computerTurn(gameSquares, squaresPlayed);
+            squaresPlayed.push_back(squareChoice);
+            pair<int, int> indexOfSquare = getIndexOfSquare(gameSquaresRepresentation, squareChoice);
+            gameSquares[indexOfSquare.first][indexOfSquare.second] = computerChoice;
             printGameSquares(gameSquares);
             currentPlayer = Player::user;
         }
@@ -101,6 +113,8 @@ int main (){
                 cin>>squareChoice;
             }
             while (vectorContainsValue(squaresPlayed, squareChoice));
+            squaresPlayed.push_back(squareChoice);
+
             pair<int, int> indexOfSquare = getIndexOfSquare(gameSquaresRepresentation, squareChoice);
             gameSquares[indexOfSquare.first][indexOfSquare.second] = userChoice;
             printGameSquares(gameSquares);
