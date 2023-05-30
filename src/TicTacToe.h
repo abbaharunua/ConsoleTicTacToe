@@ -14,13 +14,13 @@ enum Player{
 
 bool checkGame(std::vector<std::vector<char>>);
 
-bool vectorContainsValue(std::vector<int>, int);
+bool vectorContainsValue(std::vector<int>&, int&);
 
 void printGameSquares(std::vector<std::vector<char>>);
 
 std::pair<int, int> getIndexOfSquare(std::vector<std::vector<char>>, int);
 
 //Plays the computers turn
-void computerTurn();
+int computerTurn(std::vector<std::vector<char>>&, std::vector<int>&);
 
 #endif
