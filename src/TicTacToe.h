@@ -4,23 +4,54 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <map>
 
 constexpr int rows = 3;
-constexpr int colums = 3;
+constexpr int columns = 3;
+constexpr char player1Char = 'X';
+constexpr char player2Char = 'O';
 
-enum Player{
-    user, computer
+enum Player {
+    player1, player2
 };
 
-bool checkGame(std::vector<std::vector<char>>);
+class TicTacToeGame {
+private:
+    std::vector<std::vector<char>> gameSquares;
+    std::vector<std::vector<int>> gameSquaresRepresentation;
+    std::vector<int> squaresPlayed;
+    Player currentPlayer;
+    bool gameOver;
 
-bool vectorContainsValue(std::vector<int>&, int&);
+    //Will return the index of the a sqaure based on the given square number
+    std::pair<int, int> getIndexOfSquare(int&);
+public:
+    //Constructor
+    TicTacToeGame();
 
-void printGameSquares(std::vector<std::vector<char>>);
+    //Checks if the game is over by seeing if one player has won or if its a draw
+    void checkGame();
 
-std::pair<int, int> getIndexOfSquare(std::vector<std::vector<char>>, int);
+    //Shows the current state of the game 
+    void printGameSquares();
 
-//Plays the computers turn
-int computerTurn(std::vector<std::vector<char>>&, std::vector<int>&);
+    //Shows the id of each square
+    void printRepresentation();
 
+    //Updates the gameSquares and changes the currentPlayer 
+    void playTurn(int&);
+
+    //Checks if a square has been already used
+    bool isSquarePlayed(int&);
+
+    //Returns the isGameOver variable value
+    bool getIsGameOver();
+};
+
+class GameHandler {
+private:
+    TicTacToeGame game;
+    
+
+};
 #endif
