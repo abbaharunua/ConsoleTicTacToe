@@ -4,8 +4,8 @@ using tic = TicTacToeGame;
 
 //TicTacToeGame Implementaion
 tic::TicTacToeGame() {
-    gameSquares = std::vector(rows, std::vector(columns, '-'));
-    gameSquaresRepresentation = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+    gameSquares = std::vector<std::vector<char>>(rows, std::vector<char>(columns, '-'));
+    gameSquaresRepresentation = {{'1', '2', '3'}, {'4', '5', '6'}, {'7', '8', '9'}};
     currentPlayer = Player::player1;
     squaresPlayed = {};
     gameOver = false;
@@ -67,7 +67,7 @@ std::pair<int, int> tic::getIndexOfSquare(int& squareIn) {
 
     for (rowCounter = 0; rowCounter < 3; rowCounter++) {
         for (colCounter = 0; colCounter < 3; colCounter++) {
-            if (gameSquares[rowCounter][colCounter] == userChoiceAsChar) {
+            if (gameSquaresRepresentation[rowCounter][colCounter] == userChoiceAsChar) {
                 userChoiceFound = true;
                 break;
             }
@@ -76,7 +76,11 @@ std::pair<int, int> tic::getIndexOfSquare(int& squareIn) {
             break;
         }
     }
+    if (!userChoiceFound) {
+        throw std::runtime_error("Could't find the userChoice");
+    }
     std::pair<int, int> positionOfSquare(rowCounter, colCounter);
+
     return positionOfSquare;
 }
 
@@ -97,7 +101,7 @@ void tic::playTurn(int& squareChoice) {
         currentPlayer = Player::player2;
     }
     else {
-        gameSquares[index.first][index.second] = player1Char;
+        gameSquares[index.first][index.second] = player2Char;
         currentPlayer = Player::player1;
     }
     squaresPlayed.push_back(squareChoice);
@@ -109,7 +113,7 @@ bool tic::getIsGameOver() {
     return gameOver;
 }
 
-Player tic::getCurrentPlayer() const {
+Player tic::getCurrentPlayer() {
     return currentPlayer;
 }
 
@@ -128,12 +132,12 @@ void gmh::startGame() {
     std::cin>>userChar;
 
     while (!userChoiceSet) {
-        if (userChar == 'X') {
+        if (userChar == 'X' || userChar == 'x') {
             userChoiceSet = true;
             playerOneFunction = &gmh::userTurn;
             playerTwoFunction = &gmh::computerTurn;
         }
-        else if (userChar == 'O') {
+        else if (userChar == 'O' || userChar == 'o') {
             userChoiceSet = true;
             playerOneFunction = &gmh::computerTurn;
             playerTwoFunction = &gmh::userTurn;
@@ -147,11 +151,13 @@ void gmh::startGame() {
     }
 
     while (!game.getIsGameOver()) {
-        if (game.getCurrentPlayer() == Player::player1) {
-            this->playerOneFunction;
+        Player temp = game.getCurrentPlayer();
+        
+        if (temp == Player::player1) {
+            (this->*playerOneFunction)();
         }
         else {
-            this->playerTwoFunction;
+            (this->*playerTwoFunction)();
         }
     }
 }

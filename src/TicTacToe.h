@@ -18,7 +18,7 @@ enum Player {
 class TicTacToeGame {
 private:
     std::vector<std::vector<char>> gameSquares;
-    std::vector<std::vector<int>> gameSquaresRepresentation;
+    std::vector<std::vector<char>> gameSquaresRepresentation;
     std::vector<int> squaresPlayed;
     Player currentPlayer;
     bool gameOver;
@@ -47,7 +47,7 @@ public:
     //Returns the isGameOver variable value
     bool getIsGameOver();
 
-    Player getCurrentPlayer() const;
+    Player getCurrentPlayer();
 };
 
 class GameHandler {
