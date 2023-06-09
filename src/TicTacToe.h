@@ -46,12 +46,24 @@ public:
 
     //Returns the isGameOver variable value
     bool getIsGameOver();
+
+    Player getCurrentPlayer() const;
 };
 
 class GameHandler {
 private:
     TicTacToeGame game;
-    
+    char userChar;
+    void (GameHandler::*playerOneFunction)();
+    void (GameHandler::*playerTwoFunction)();
 
+public:
+    GameHandler();
+
+    void computerTurn();
+
+    void startGame();
+
+    void userTurn();
 };
 #endif
