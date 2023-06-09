@@ -1,0 +1,16 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name" : "consoleTicTacToeDebug",
+            "displayName": "consoleTicTacToeDebug",
+            "binaryDir" : "${sourceDir}/out/build/${presetName}",
+            "generator": "Ninja",
+            "cacheVariables" : {
+                "CMAKE_C_COMPILER" : "gcc.exe",
+                "CMAKE_CXX_COMPILER" : "g++.exe",
+                "CMAKE_BUILD_TYPE" :"Debug"
+            }
+        }
+    ]
+}
